@@ -1,14 +1,22 @@
 import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
+import AutoReplace from "./AutoReplace";
 
-import AddMark from "./plugins/slate-mark-plugin";
+import AddMark from "./plugins/slate-editor-mark-plugin";
 
 const plugins = [
   AddMark({
     command: "addBoldMark",
     hotKey: "mod+b",
     mark: "bold"
+  }),
+  AutoReplace({
+    trigger: /\*/,
+    before: /(\*{2})[^\*]*(\*)/i,
+    change: (editor, event, matches) => {
+      return editor.command("toggleMark", "bold");
+    }
   }),
   AddMark({
     command: "addItalicMark",
