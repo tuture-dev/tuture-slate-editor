@@ -25,16 +25,8 @@ export default function(options) {
       const { attributes, children, mark } = props;
 
       switch (mark.type) {
-        case "bold":
-          return <strong {...attributes}>{children}</strong>;
         case "italic":
           return <i {...attributes}>{children}</i>;
-        case "underline":
-          return <u {...attributes}>{children}</u>;
-        case "strikethrough":
-          return <del {...attributes}>{children}</del>;
-        case "code":
-          return <code {...attributes}>{children}</code>;
         default:
           return next();
       }
