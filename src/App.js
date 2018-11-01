@@ -5,8 +5,14 @@ import { Editor } from "slate-react";
 import BoldPlugin from "./plugins/slate-editor-bold-plugin/";
 import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
 import DeletePlugin from "./plugins/slate-editor-delete-plugin/";
+import CodePlugin from "./plugins/slate-editor-code-plugin/";
 
-const plugins = [...BoldPlugin(), ...ItalicPlugin(), ...DeletePlugin()];
+const plugins = [
+  ...BoldPlugin(),
+  ...ItalicPlugin(),
+  ...DeletePlugin(),
+  ...CodePlugin()
+];
 
 const initialValue = Value.fromJSON({
   document: {
@@ -58,6 +64,9 @@ export default class App extends React.Component {
         </button>
         <button onClick={event => this.handleMarkClick(event, "addDeleteMark")}>
           删除
+        </button>
+        <button onClick={event => this.handleMarkClick(event, "addCodeMark")}>
+          代码
         </button>
         <Editor
           ref={this.ref}
