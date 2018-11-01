@@ -56,6 +56,17 @@ export default class App extends React.Component {
     this.editor.command(type);
   };
 
+  handleBlockClick = (event, type) => {
+    event.preventDefault();
+
+    switch (type) {
+      case "heading-one":
+        return this.editor.command("addHeadingBlock", 1);
+      default:
+        return;
+    }
+  };
+
   ref = editor => (this.editor = editor);
   render() {
     return (
@@ -71,6 +82,9 @@ export default class App extends React.Component {
         </button>
         <button onClick={event => this.handleMarkClick(event, "addCodeMark")}>
           代码
+        </button>
+        <button onClick={event => this.handleBlockClick(event, "heading-one")}>
+          一级标题
         </button>
         <Editor
           ref={this.ref}

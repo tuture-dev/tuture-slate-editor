@@ -1,27 +1,14 @@
 import React from "react";
 
 import { RenderNode, AutoReplace } from "../slate-editor-utils/";
-
-const DefaultRenderNode = props => {
-  const { attributes, children, node } = props;
-  const level = node.data.get("level");
-  const Tag = `h${level}`;
-  return <Tag {...attributes}>{children}</Tag>;
-};
-
-const defaultAfterChange = (change, event, matches, afterOffset) => {
-  const [hashes] = matches.before;
-  const level = hashes.length;
-  change.moveTo(afterOffset).setBlocks({ type: "h", data: { level } });
-};
-
-const defaultNodeType = "h";
-const defaultCommand = "addHeadingBlock";
-const defaultMarkdown = {
-  trigger: "space",
-  before: /^(#{1,6})$/,
-  afterChange: defaultAfterChange
-};
+import {
+  DefaultRenderNode,
+  defaultNodeType,
+  defaultCommand,
+  defaultMarkdown
+} from "./utils";
+import onBackspace from "./onBackspace";
+import onEnter from "./onEnter";
 
 export default function({
   command = defaultCommand,
@@ -32,8 +19,11 @@ export default function({
   let plugins = [];
   plugins.push({
     commands: {
-      addHeadingBlock: (editor, level) => {
-        editor.setBlocks({ type: "h", data: { level } });
+      [command]: (editor, level) => {
+        const isActive = editor.value.blocks.some(block => block.type === "h");
+        editor
+          .setBlocks(isActive ? "paragraph" : { type: "h", data: { level } })
+          .focus();
       }
     }
   });
@@ -46,11 +36,26 @@ export default function({
   } else {
     plugins.push(
       RenderNode({
-        nodeType: defaultNodeType,
+        nodeType: nodeType,
         element: DefaultRenderNode
       })
     );
   }
+
+  // handle Enter and Backspace
+
+  plugins.push({
+    onKeyDown: (event, editor, next) => {
+      switch (event.key) {
+        case "Enter":
+          return onEnter(event, editor, next);
+        case "Backspace":
+          return onBackspace(event, editor, next);
+        default:
+          return next();
+      }
+    }
+  });
 
   // Add markdown-related function
   plugins.push(AutoReplace(markdown));
