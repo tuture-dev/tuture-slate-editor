@@ -1,18 +1,40 @@
 import React from "react";
-import Has from "lodash.has";
 
-import AddHotKey from "../slate-editor-utils/addHotKey";
-import RenderMark from "../slate-editor-utils/renderMark";
+import { AddHotKey, RenderMark, AutoReplace } from "../slate-editor-utils/";
 
 const DefaultRenderMark = props => {
   const { attributes, children } = props;
   return <strong {...attributes}>{children}</strong>;
 };
 
+const defaultBeforeChange = markType => (change, event, matches) => {
+  const startOffset = change.value.selection.start.offset;
+  change
+    .moveAnchorTo(startOffset - matches.before[0].length)
+    .moveFocusTo(startOffset)
+    .toggleMark(markType);
+};
+
+const defaultAfterChange = markType => (change, event, matches) => {
+  const startOffset = change.value.selection.start.offset;
+  change.toggleMark(markType).moveTo(startOffset + 1);
+};
+
+const defaultMarkType = "bold";
+const defaultCommand = "addBoldMark";
+const defaultHotKey = "mod+b";
+const defaultMarkdown = {
+  trigger: /\*/,
+  before: /(\*{2})[^\*]*(\*{1})/i,
+  beforeChange: defaultBeforeChange(defaultMarkType),
+  afterChange: defaultAfterChange(defaultMarkType)
+};
+
 export default function({
-  hotKey = "mod+b",
-  command = "addBoldMark",
-  markType = "bold",
+  hotKey = defaultHotKey,
+  command = defaultCommand,
+  markType = defaultMarkType,
+  markdown = defaultMarkdown,
   renderMark
 } = {}) {
   // The hotkey plugin
@@ -37,6 +59,9 @@ export default function({
       })
     );
   }
+
+  // Add markdown-related function
+  plugins.push(AutoReplace(markdown));
 
   // return plugins stack
   return plugins;
