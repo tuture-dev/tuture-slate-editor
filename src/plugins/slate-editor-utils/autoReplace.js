@@ -10,8 +10,8 @@ import typeOf from "type-of";
  */
 
 function AutoReplace(opts = {}) {
-  if (!opts.beforeChange)
-    throw new Error("You must provide a `beforeChange` option.");
+  if (!opts.beforeChange && !opts.afterChange)
+    throw new Error("You must provide a `change` option.");
   if (!opts.trigger) throw new Error("You must provide a `trigger` option.");
 
   const trigger = normalizeTrigger(opts.trigger);
@@ -26,7 +26,6 @@ function AutoReplace(opts = {}) {
    */
 
   function onKeyDown(event, change, next) {
-    console.log("trigger(event, change, next)", trigger(event, change, next));
     if (!trigger(event, change, next)) return next();
 
     const { value } = change;
@@ -47,7 +46,9 @@ function AutoReplace(opts = {}) {
     const offsets = getOffsets(matches, startOffset);
 
     // apply effects before delete
-    change.call(opts.beforeChange, event, matches);
+    if (opts.beforeChange) {
+      change.call(opts.beforeChange, event, matches);
+    }
 
     offsets.forEach(offset => {
       change
@@ -60,7 +61,9 @@ function AutoReplace(opts = {}) {
     startOffset -= totalRemoved;
 
     // apply effects after delete
-    change.call(opts.afterChange, event, matches, startOffset);
+    if (opts.afterChange) {
+      change.call(opts.afterChange, event, matches, startOffset);
+    }
   }
 
   /**

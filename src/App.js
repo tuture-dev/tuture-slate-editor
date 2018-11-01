@@ -6,12 +6,16 @@ import BoldPlugin from "./plugins/slate-editor-bold-plugin/";
 import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
 import DeletePlugin from "./plugins/slate-editor-delete-plugin/";
 import CodePlugin from "./plugins/slate-editor-code-plugin/";
+import HeaderPlugin from "./plugins/slate-editor-header-plugin/";
+
+console.log("he", HeaderPlugin());
 
 const plugins = [
   ...BoldPlugin(),
   ...ItalicPlugin(),
   ...DeletePlugin(),
-  ...CodePlugin()
+  ...CodePlugin(),
+  ...HeaderPlugin()
 ];
 
 const initialValue = Value.fromJSON({
