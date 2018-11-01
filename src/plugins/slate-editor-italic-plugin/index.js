@@ -1,35 +1,74 @@
-import Has from "lodash.has";
 import React from "react";
 
-import isHotKey from "is-hotkey";
+import { AddHotKey, RenderMark, AutoReplace } from "../slate-editor-utils/";
 
-export default function(options) {
-  return {
-    onKeyDown(event, editor, next) {
-      if (!Has(options, "hotKey")) {
-        return next();
-      }
+const DefaultRenderMark = props => {
+  const { attributes, children } = props;
+  return <i {...attributes}>{children}</i>;
+};
 
-      if (isHotKey(options.hotKey)(event)) {
-        return editor.command(options.command);
-      }
+const defaultBeforeChange = markType => (change, event, matches) => {
+  const startOffset = change.value.selection.start.offset;
+  console.log("matches", matches, startOffset);
+  change
+    .moveAnchorTo(startOffset - matches.before[0].length + 1)
+    .moveFocusTo(startOffset)
+    .toggleMark(markType);
+};
 
-      return next();
-    },
-    commands: {
-      [options.command]: editor => {
-        editor.command("toggleMark", options.mark);
-      }
-    },
-    renderMark(props, editor, next) {
-      const { attributes, children, mark } = props;
+const defaultAfterChange = markType => (
+  change,
+  event,
+  matches,
+  afterOffset
+) => {
+  console.log("matches", matches, afterOffset);
+  change.moveTo(afterOffset).toggleMark(markType);
+};
 
-      switch (mark.type) {
-        case "italic":
-          return <i {...attributes}>{children}</i>;
-        default:
-          return next();
-      }
-    }
-  };
+const defaultMarkType = "italic";
+const defaultCommand = "addItalicMark";
+const defaultHotKey = "mod+i";
+const defaultMarkdown = {
+  trigger: /(\*|_)/,
+  before: /[^(\*|_)](\*|_)[^(\*|_)]+/i,
+  beforeChange: defaultBeforeChange(defaultMarkType),
+  afterChange: defaultAfterChange(defaultMarkType)
+};
+
+export default function({
+  hotKey = defaultHotKey,
+  command = defaultCommand,
+  markType = defaultMarkType,
+  markdown = defaultMarkdown,
+  renderMark
+} = {}) {
+  // The hotkey plugin
+  let plugins = [
+    AddHotKey({
+      hotKey,
+      command,
+      markType
+    })
+  ];
+
+  // Judge whether user offset renderMark
+  if (renderMark) {
+    plugins.push({
+      renderMark
+    });
+  } else {
+    plugins.push(
+      RenderMark({
+        markType: markType,
+        element: DefaultRenderMark
+      })
+    );
+  }
+
+  // Add markdown-related function
+  plugins.push(AutoReplace(markdown));
+
+  // return plugins stack
+  return plugins;
 }

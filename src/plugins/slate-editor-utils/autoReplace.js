@@ -26,7 +26,7 @@ function AutoReplace(opts = {}) {
    */
 
   function onKeyDown(event, change, next) {
-    console.log("trigger", trigger(event, change, next));
+    console.log("trigger(event, change, next)", trigger(event, change, next));
     if (!trigger(event, change, next)) return next();
 
     const { value } = change;
@@ -60,7 +60,7 @@ function AutoReplace(opts = {}) {
     startOffset -= totalRemoved;
 
     // apply effects after delete
-    change.call(opts.afterChange, event, matches);
+    change.call(opts.afterChange, event, matches, startOffset);
   }
 
   /**

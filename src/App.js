@@ -3,8 +3,9 @@ import { Value } from "slate";
 import { Editor } from "slate-react";
 
 import BoldPlugin from "./plugins/slate-editor-bold-plugin/";
+import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
 
-const plugins = [...BoldPlugin()];
+const plugins = [...BoldPlugin(), ...ItalicPlugin()];
 
 const initialValue = Value.fromJSON({
   document: {
@@ -50,6 +51,9 @@ export default class App extends React.Component {
       <div>
         <button onClick={event => this.handleMarkClick(event, "addBoldMark")}>
           加粗
+        </button>
+        <button onClick={event => this.handleMarkClick(event, "addItalicMark")}>
+          斜体
         </button>
         <Editor
           ref={this.ref}

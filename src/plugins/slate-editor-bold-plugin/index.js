@@ -15,17 +15,21 @@ const defaultBeforeChange = markType => (change, event, matches) => {
     .toggleMark(markType);
 };
 
-const defaultAfterChange = markType => (change, event, matches) => {
-  const startOffset = change.value.selection.start.offset;
-  change.toggleMark(markType).moveTo(startOffset + 1);
+const defaultAfterChange = markType => (
+  change,
+  event,
+  matches,
+  afterOffset
+) => {
+  change.moveTo(afterOffset).toggleMark(markType);
 };
 
 const defaultMarkType = "bold";
 const defaultCommand = "addBoldMark";
 const defaultHotKey = "mod+b";
 const defaultMarkdown = {
-  trigger: /\*/,
-  before: /(\*{2})[^\*]*(\*{1})/i,
+  trigger: /(\*|_)/,
+  before: /((\*|_){2})[^(\*|_)]*((\*|_){1})/i,
   beforeChange: defaultBeforeChange(defaultMarkType),
   afterChange: defaultAfterChange(defaultMarkType)
 };
