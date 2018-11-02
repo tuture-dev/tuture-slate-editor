@@ -7,6 +7,7 @@ import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
 import DeletePlugin from "./plugins/slate-editor-delete-plugin/";
 import CodePlugin from "./plugins/slate-editor-code-plugin/";
 import HeaderPlugin from "./plugins/slate-editor-header-plugin/";
+import BlockquotePlugin from "./plugins/slate-editor-blockquote-plugin/";
 
 console.log("he", HeaderPlugin());
 
@@ -15,7 +16,8 @@ const plugins = [
   ...ItalicPlugin(),
   ...DeletePlugin(),
   ...CodePlugin(),
-  ...HeaderPlugin()
+  ...HeaderPlugin(),
+  ...BlockquotePlugin()
 ];
 
 const initialValue = Value.fromJSON({
@@ -63,7 +65,7 @@ export default class App extends React.Component {
       case "heading-one":
         return this.editor.command("addHeadingBlock", 1);
       default:
-        return;
+        return this.editor.command(type);
     }
   };
 
@@ -85,6 +87,11 @@ export default class App extends React.Component {
         </button>
         <button onClick={event => this.handleBlockClick(event, "heading-one")}>
           一级标题
+        </button>
+        <button
+          onClick={event => this.handleBlockClick(event, "addBlockquoteBlock")}
+        >
+          添加引用
         </button>
         <Editor
           ref={this.ref}
