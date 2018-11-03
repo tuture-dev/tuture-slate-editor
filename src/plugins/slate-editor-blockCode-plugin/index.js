@@ -13,9 +13,10 @@ import { isSelectionInBlock } from "./getCurrentBlock";
 import { getCurrentCode } from "./utils/";
 import Options from "./options";
 import core from "./core";
-import { onTab } from "./handlers/";
+import { onTab, onShiftTab } from "./handlers/";
 
 const isTab = isHotKey("tab");
+const isShiftTab = isHotKey("shift+tab");
 
 const options = new Options();
 export const corePlugin = core(options);
@@ -73,6 +74,10 @@ export default function({
 
       if (isTab(event)) {
         return onTab(...args);
+      }
+
+      if (isShiftTab(event)) {
+        return onShiftTab(...args);
       }
 
       return next();
