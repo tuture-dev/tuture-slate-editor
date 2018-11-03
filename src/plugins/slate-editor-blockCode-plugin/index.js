@@ -6,11 +6,19 @@ import {
   DefaultRenderNode,
   defaultNodeType,
   defaultCommand,
-  defaultMarkdown
+  defaultMarkdown,
+  DefaultLineNode
 } from "./utils";
-import onBackspace from "./onBackspace";
-import onEnter from "./onEnter";
 import { isSelectionInBlock } from "./getCurrentBlock";
+import { getCurrentCode } from "./utils/";
+import Options from "./options";
+import core from "./core";
+import { onTab } from "./handlers/";
+
+const isTab = isHotKey("tab");
+
+const options = new Options();
+export const corePlugin = core(options);
 
 export default function({
   command = defaultCommand,
@@ -22,13 +30,11 @@ export default function({
   plugins.push({
     commands: {
       [command]: editor => {
-        const isActive = isSelectionInBlock(
-          { type: "blockquote" },
-          editor.value
-        );
+        const isActive = corePlugin.utils.isInCodeBlock(editor.value);
+        console.log("isActive", isActive);
         return isActive
-          ? editor.unwrapBlock("blockquote").focus()
-          : editor.wrapBlock("blockquote").focus();
+          ? editor.unwrapBlock("block_code").focus()
+          : corePlugin.changes.wrapCodeBlock(editor);
       }
     }
   });
@@ -41,8 +47,14 @@ export default function({
   } else {
     plugins.push(
       RenderNode({
-        nodeType: nodeType,
+        nodeType: options.containerType,
         element: DefaultRenderNode
+      })
+    );
+    plugins.push(
+      RenderNode({
+        nodeType: options.lineType,
+        element: DefaultLineNode
       })
     );
   }
@@ -51,14 +63,19 @@ export default function({
 
   plugins.push({
     onKeyDown: (event, editor, next) => {
-      switch (event.key) {
-        case "Enter":
-          return onEnter(event, editor, next);
-        case "Backspace":
-          return onBackspace(event, editor, next);
-        default:
-          return next();
+      const currentCode = getCurrentCode(options, editor.value);
+
+      if (!currentCode) {
+        return next();
       }
+
+      const args = [options, event, editor, next];
+
+      if (isTab(event)) {
+        return onTab(...args);
+      }
+
+      return next();
     }
   });
 

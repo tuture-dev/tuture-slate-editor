@@ -8,6 +8,9 @@ import DeletePlugin from "./plugins/slate-editor-delete-plugin/";
 import CodePlugin from "./plugins/slate-editor-code-plugin/";
 import HeaderPlugin from "./plugins/slate-editor-header-plugin/";
 import BlockquotePlugin from "./plugins/slate-editor-blockquote-plugin/";
+import BlockCodePlugin, {
+  corePlugin
+} from "./plugins/slate-editor-blockCode-plugin/";
 
 console.log("he", HeaderPlugin());
 
@@ -17,7 +20,8 @@ const plugins = [
   ...DeletePlugin(),
   ...CodePlugin(),
   ...HeaderPlugin(),
-  ...BlockquotePlugin()
+  ...BlockquotePlugin(),
+  ...BlockCodePlugin()
 ];
 
 const initialValue = Value.fromJSON({
@@ -64,6 +68,8 @@ export default class App extends React.Component {
     switch (type) {
       case "heading-one":
         return this.editor.command("addHeadingBlock", 1);
+      case "addBlockCode":
+        return corePlugin.changes.wrapCodeBlock(this.editor);
       default:
         return this.editor.command(type);
     }
@@ -92,6 +98,9 @@ export default class App extends React.Component {
           onClick={event => this.handleBlockClick(event, "addBlockquoteBlock")}
         >
           添加引用
+        </button>
+        <button onClick={event => this.handleBlockClick(event, "addBlockCode")}>
+          添加代码块
         </button>
         <Editor
           ref={this.ref}

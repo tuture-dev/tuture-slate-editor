@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "antd": "^3.10.3",
+    "detect-indent": "^5.0.0",
+    "detect-newline": "^2.1.0",
     "immutable": "^4.0.0-rc.12",
     "is-hotkey": "^0.1.4",
     "lodash.has": "^4.5.2",
