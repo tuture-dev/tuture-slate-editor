@@ -13,11 +13,12 @@ import { isSelectionInBlock } from "./getCurrentBlock";
 import { getCurrentCode } from "./utils/";
 import Options from "./options";
 import core from "./core";
-import { onTab, onShiftTab, onModEnter } from "./handlers/";
+import { onTab, onShiftTab, onModEnter, onEnter } from "./handlers/";
 
 const isTab = isHotKey("tab");
 const isShiftTab = isHotKey("shift+tab");
 const isModEnter = isHotKey("mod+enter");
+const isEnter = isHotKey("enter");
 
 const options = new Options();
 export const corePlugin = core(options);
@@ -83,6 +84,10 @@ export default function({
 
       if (options.exitBlockType && isModEnter(event)) {
         return onModEnter(...args);
+      }
+
+      if (isEnter(event)) {
+        return onEnter(...args);
       }
 
       return next();
