@@ -1,4 +1,5 @@
 import onTab from "./onTab";
 import onShiftTab from "./onShiftTab";
+import onModEnter from "./onModEnter";
 
-export { onTab, onShiftTab };
+export { onTab, onShiftTab, onModEnter };

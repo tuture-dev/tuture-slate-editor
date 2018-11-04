@@ -1,6 +1,8 @@
 import { Record } from "immutable";
 import { Block, Text } from "slate";
 
+import { getCurrentCode } from "./utils/";
+
 const DEFAULTS = {
   containerType: "code_block",
   lineType: "code_line",
@@ -28,6 +30,13 @@ class Options extends Record(DEFAULTS) {
       return this.onExit(editor);
     }
 
+    // Exit the code block
+    const codeBlock = getCurrentCode(
+      { containerType: "code_block" },
+      editor.value
+    );
+    editor.moveToEndOfNode(codeBlock);
+
     const range = editor.value.selection;
 
     const exitBlock = Block.create({
@@ -40,10 +49,7 @@ class Options extends Record(DEFAULTS) {
       normalize: false
     });
 
-    // Exit the code block
-    editor.unwrapNodeByKey(exitBlock.key);
-
-    return editor.moveToStartOfNode(exitBlock);
+    return editor.unwrapNodeByKey(exitBlock.key).moveToStartOfNode(exitBlock);
   }
 }
 
