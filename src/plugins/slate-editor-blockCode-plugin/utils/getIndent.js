@@ -1,12 +1,12 @@
 import detectIndent from "detect-indent";
 
-const DEFAULT_INDENTATION = "  ";
+export const DEFAULT_INDENTATION = "  ";
 
 /**
  * Detect indentation in a text
  */
 function getIndent(text, defaultValue = DEFAULT_INDENTATION) {
-  return defaultValue;
+  return detectIndent(text).indent || defaultValue;
 }
 
 export default getIndent;

@@ -1,5 +1,5 @@
 import getCurrentCode from "./getCurrentCode";
-import getIndent from "./getIndent";
+import getIndent, { DEFAULT_INDENTATION } from "./getIndent";
 import getCurrentIndent from "./getCurrentIndent";
 import deserializeCode from "./deserializeCode";
 import isInCodeBlock from "./isInCodeBlock";
@@ -9,5 +9,6 @@ export {
   getIndent,
   getCurrentIndent,
   deserializeCode,
-  isInCodeBlock
+  isInCodeBlock,
+  DEFAULT_INDENTATION
 };

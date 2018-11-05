@@ -1,4 +1,4 @@
-import { getCurrentIndent } from "../utils/";
+import { DEFAULT_INDENTATION } from "../utils/";
 import { indentLines } from "../changes/";
 
 function onTab(options, event, editor, next) {
@@ -7,8 +7,7 @@ function onTab(options, event, editor, next) {
   event.stopPropagation();
 
   const { selection } = value;
-  const indent = getCurrentIndent(options, value);
-  console.log("indent", indent);
+  const indent = DEFAULT_INDENTATION;
 
   if (selection.isCollapsed) {
     return editor.insertText(indent).focus();

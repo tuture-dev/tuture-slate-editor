@@ -18,7 +18,8 @@ import {
   onShiftTab,
   onModEnter,
   onEnter,
-  onSelectAll
+  onSelectAll,
+  onBackspace
 } from "./handlers/";
 
 const isTab = isHotKey("tab");
@@ -26,6 +27,7 @@ const isShiftTab = isHotKey("shift+tab");
 const isModEnter = isHotKey("mod+enter");
 const isEnter = isHotKey("enter");
 const isModA = isHotKey("mod+a");
+const isBackspace = isHotKey("backspace");
 
 const options = new Options();
 export const corePlugin = core(options);
@@ -99,6 +101,10 @@ export default function({
 
       if (options.selectAll && isModA(event)) {
         return onSelectAll(...args);
+      }
+
+      if (isBackspace(event)) {
+        return onBackspace(...args);
       }
 
       return next();

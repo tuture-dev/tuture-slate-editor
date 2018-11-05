@@ -12,8 +12,6 @@ import BlockCodePlugin, {
   corePlugin
 } from "./plugins/slate-editor-blockCode-plugin/";
 
-console.log("he", HeaderPlugin());
-
 const plugins = [
   ...BoldPlugin(),
   ...ItalicPlugin(),

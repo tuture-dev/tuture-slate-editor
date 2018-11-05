@@ -1,4 +1,4 @@
-import { getCurrentIndent } from "../utils/";
+import { DEFAULT_INDENTATION } from "../utils/";
 import { dedentLines } from "../changes/";
 
 function onShiftTab(options, event, editor) {
@@ -6,7 +6,7 @@ function onShiftTab(options, event, editor) {
   event.preventDefault();
   event.stopPropagation();
 
-  const indent = getCurrentIndent(options, value);
+  const indent = DEFAULT_INDENTATION;
 
   return dedentLines(options, editor, indent);
 }

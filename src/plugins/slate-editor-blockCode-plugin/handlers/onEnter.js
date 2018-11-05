@@ -1,4 +1,4 @@
-import detectIndent from "detect-indent";
+import { getCurrentIndent } from "../utils/";
 
 function onEnter(options, event, editor, next) {
   const { value } = editor;
@@ -11,7 +11,7 @@ function onEnter(options, event, editor, next) {
 
   const { startBlock } = value;
   const currentLineText = startBlock.text;
-  const indent = detectIndent(currentLineText).indent || "";
+  const indent = getCurrentIndent(currentLineText, value);
 
   return editor
     .splitBlock()

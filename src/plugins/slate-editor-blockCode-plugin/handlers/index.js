@@ -3,5 +3,6 @@ import onShiftTab from "./onShiftTab";
 import onModEnter from "./onModEnter";
 import onEnter from "./onEnter";
 import onSelectAll from "./onSelectAll";
+import onBackspace from "./onBackspace";
 
-export { onTab, onShiftTab, onModEnter, onEnter, onSelectAll };
+export { onTab, onShiftTab, onModEnter, onEnter, onSelectAll, onBackspace };
