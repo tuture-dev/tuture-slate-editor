@@ -1,7 +1,7 @@
 function isInCodeBlock(options, value) {
-  const { document, start } = value;
+  const { document, selection } = value;
   const codeBlock = document.getClosest(
-    start.key,
+    selection.start.key,
     block => block.type === options.containerType
   );
 

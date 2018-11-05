@@ -42,11 +42,7 @@ export default function({
   plugins.push({
     commands: {
       [command]: editor => {
-        const isActive = corePlugin.utils.isInCodeBlock(editor.value);
-        console.log("isActive", isActive);
-        return isActive
-          ? editor.unwrapBlock("block_code").focus()
-          : corePlugin.changes.wrapCodeBlock(editor);
+        return corePlugin.changes.toggleCodeBlock(editor, "paragraph").focus();
       }
     }
   });

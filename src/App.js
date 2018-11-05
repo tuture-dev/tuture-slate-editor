@@ -67,7 +67,7 @@ export default class App extends React.Component {
       case "heading-one":
         return this.editor.command("addHeadingBlock", 1);
       case "addBlockCode":
-        return corePlugin.changes.wrapCodeBlock(this.editor);
+        return this.editor.command("addBlockCode");
       default:
         return this.editor.command(type);
     }
