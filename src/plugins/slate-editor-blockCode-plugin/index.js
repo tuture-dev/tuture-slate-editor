@@ -1,4 +1,5 @@
 import React from "react";
+import { getEventTransfer } from "slate-react";
 import isHotKey from "is-hotkey";
 
 import { RenderNode, AutoReplace } from "../slate-editor-utils/";
@@ -19,7 +20,8 @@ import {
   onModEnter,
   onEnter,
   onSelectAll,
-  onBackspace
+  onBackspace,
+  onPaste
 } from "./handlers/";
 
 const isTab = isHotKey("tab");
@@ -108,7 +110,8 @@ export default function({
       }
 
       return next();
-    }
+    },
+    onPaste: onPaste.bind(null, options)
   });
 
   // Add markdown-related function
