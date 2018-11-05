@@ -1,5 +1,4 @@
 import React from "react";
-import { getEventTransfer } from "slate-react";
 import isHotKey from "is-hotkey";
 
 import { RenderNode, AutoReplace } from "../slate-editor-utils/";
@@ -10,7 +9,6 @@ import {
   defaultMarkdown,
   DefaultLineNode
 } from "./utils";
-import { isSelectionInBlock } from "./getCurrentBlock";
 import { getCurrentCode } from "./utils/";
 import Options from "./options";
 import core from "./core";

@@ -28,8 +28,7 @@ export const DefaultLineNode = props => {
 };
 
 const defaultAfterChange = (editor, event, matches, afterOffset) => {
-  // editor.moveTo(afterOffset);
-  corePlugin.changes.wrapCodeBlock(editor);
+  corePlugin.changes.wrapCodeBlock(editor.moveTo(afterOffset));
 };
 
 export const defaultNodeType = "code_block";

@@ -37,14 +37,11 @@ class Options extends Record(DEFAULTS) {
     );
     editor.moveToEndOfNode(codeBlock);
 
-    const range = editor.value.selection;
-
     const exitBlock = Block.create({
       type: this.exitBlockType,
       nodes: [Text.create()]
     });
 
-    editor.deleteAtRange(range, { normalize: false });
     editor.insertBlockAtRange(editor.value.selection, exitBlock, {
       normalize: false
     });

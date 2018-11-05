@@ -7,7 +7,7 @@ function wrapCodeBlock(options, editor) {
   wrapCodeBlockByKey(options, editor, startBlock.key);
 
   editor
-    .moveToStartOfNode(document.getDescendant(startBlock.key))
+    .moveToStartOfNode(editor.value.document.getDescendant(startBlock.key))
     .moveAnchorTo(selection.start.offset)
     .moveFocusTo(selection.start.offset);
 
