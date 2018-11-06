@@ -11,6 +11,10 @@ import BlockquotePlugin from "./plugins/slate-editor-blockquote-plugin/";
 import BlockCodePlugin, {
   corePlugin
 } from "./plugins/slate-editor-blockCode-plugin/";
+import PrismPlugin from "./plugins/slate-editor-prismjs-plugin/";
+
+import "prismjs/themes/prism.css";
+import "github-markdown-css";
 
 const plugins = [
   ...BoldPlugin(),
@@ -19,6 +23,7 @@ const plugins = [
   ...CodePlugin(),
   ...HeaderPlugin(),
   ...BlockquotePlugin(),
+  PrismPlugin(),
   ...BlockCodePlugin()
 ];
 
