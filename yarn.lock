@@ -1398,6 +1398,10 @@ babel-plugin-named-asset-import@^0.2.2:
   version "0.2.2"
   resolved "http://registry.npm.taobao.org/babel-plugin-named-asset-import/download/babel-plugin-named-asset-import-0.2.2.tgz#af1290f77e073411ef1a12f17fc458f1111122eb"
 
+babel-plugin-prismjs@^1.0.2:
+  version "1.0.2"
+  resolved "http://registry.npm.taobao.org/babel-plugin-prismjs/download/babel-plugin-prismjs-1.0.2.tgz#837bf6b32168b3ba624c054fc755946deb1b63fa"
+
 "babel-plugin-styled-components@>= 1":
   version "1.8.0"
   resolved "http://registry.npm.taobao.org/babel-plugin-styled-components/download/babel-plugin-styled-components-1.8.0.tgz#9dd054c8e86825203449a852a5746f29f2dab857"

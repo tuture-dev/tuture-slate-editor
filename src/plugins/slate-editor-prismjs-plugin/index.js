@@ -21,7 +21,6 @@ function PrismPlugin(optionParams) {
 function decorateNode(opts, block) {
   const grammarName = opts.getSyntax(block);
   const grammar = Prism.languages[grammarName];
-  console.log("grammarName", Prism.languages);
   if (!grammar) {
     // Grammar not loaded
     return [];
@@ -89,8 +88,6 @@ function decorateNode(opts, block) {
     tokens.forEach(processToken);
     textStart = textEnd + 1; // account for added `\n`
   });
-
-  console.log("decorations", decorations);
 
   return decorations;
 }
