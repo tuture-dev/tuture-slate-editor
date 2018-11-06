@@ -19,6 +19,7 @@ const CodeLine = styled("pre")`
 
 export const DefaultRenderNode = props => {
   const { attributes, children, node } = props;
+  console.log("node", node);
   return <BlockCode {...attributes}>{children}</BlockCode>;
 };
 
@@ -28,13 +29,19 @@ export const DefaultLineNode = props => {
 };
 
 const defaultAfterChange = (editor, event, matches, afterOffset) => {
-  corePlugin.changes.wrapCodeBlock(editor.moveTo(afterOffset));
+  let newEditor = editor;
+  if (matches.before[2]) {
+    const lang = matches.before[2];
+    console.log("hello");
+    newEditor = editor.setBlocks({ data: { syntax: lang } });
+  }
+  corePlugin.changes.wrapCodeBlock(newEditor.moveTo(afterOffset));
 };
 
 export const defaultNodeType = "code_block";
 export const defaultCommand = "addBlockCode";
 export const defaultMarkdown = {
   trigger: "Enter",
-  before: /^(```)(\s+)?$/,
+  before: /^(```)(\w*)$/,
   afterChange: defaultAfterChange
 };
