@@ -32,7 +32,6 @@ const defaultAfterChange = (editor, event, matches, afterOffset) => {
   let newEditor = editor;
   if (matches.before[2]) {
     const lang = matches.before[2];
-    console.log("hello");
     newEditor = editor.setBlocks({ data: { syntax: lang } });
   }
   corePlugin.changes.wrapCodeBlock(newEditor.moveTo(afterOffset));

@@ -128,11 +128,13 @@ function AutoReplace(opts = {}) {
         matchIndex = match.indexOf(current, matchIndex);
         startOffset = start - totalRemoved + matchIndex - match.length;
 
-        offsets.push({
-          start: startOffset,
-          end: startOffset + current.length,
-          total: current.length
-        });
+        if (current.length) {
+          offsets.push({
+            start: startOffset,
+            end: startOffset + current.length,
+            total: current.length
+          });
+        }
 
         totalRemoved += current.length;
         matchIndex += current.length;
