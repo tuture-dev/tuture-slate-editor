@@ -12,6 +12,7 @@ import BlockCodePlugin, {
   corePlugin
 } from "./plugins/slate-editor-blockCode-plugin/";
 import PrismPlugin from "./plugins/slate-editor-prismjs-plugin/";
+import ListPlugin from "./plugins/slate-editor-list/";
 
 import "prismjs/themes/prism.css";
 import "github-markdown-css";
@@ -24,7 +25,8 @@ const plugins = [
   ...HeaderPlugin(),
   ...BlockquotePlugin(),
   PrismPlugin(),
-  ...BlockCodePlugin()
+  ...BlockCodePlugin(),
+  ...ListPlugin()
 ];
 
 const initialValue = Value.fromJSON({
@@ -78,6 +80,17 @@ export default class App extends React.Component {
     }
   };
 
+  renderNode = (props, editor, next) => {
+    const { node, attributes, children } = props;
+
+    switch (node.type) {
+      case "paragraph":
+        return <p {...attributes}>{children}</p>;
+      default:
+        return next();
+    }
+  };
+
   ref = editor => (this.editor = editor);
   render() {
     return (
@@ -105,11 +118,18 @@ export default class App extends React.Component {
         <button onClick={event => this.handleBlockClick(event, "addBlockCode")}>
           添加代码块
         </button>
+        <button onClick={event => this.handleBlockClick(event, "addOlList")}>
+          添加有序列表
+        </button>
+        <button onClick={event => this.handleBlockClick(event, "addUlList")}>
+          添加无序列表
+        </button>
         <Editor
           ref={this.ref}
           value={this.state.value}
           onChange={this.onChange}
           plugins={plugins}
+          renderNode={this.renderNode}
         />
       </div>
     );
