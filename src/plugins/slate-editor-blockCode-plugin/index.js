@@ -21,6 +21,7 @@ import {
   onBackspace,
   onPaste
 } from "./handlers/";
+import { schema } from "./validation/";
 
 const isTab = isHotKey("tab");
 const isShiftTab = isHotKey("shift+tab");
@@ -70,6 +71,7 @@ export default function({
   // handle Enter and Backspace
 
   plugins.push({
+    schema: schema(options),
     onKeyDown: (event, editor, next) => {
       const currentCode = getCurrentCode(options, editor.value);
 
