@@ -37,6 +37,7 @@ function decreaseItemDepth(options, editor) {
     editor.insertNodeByKey(currentItem.key, currentItem.nodes.size, subList, {
       normalize: false
     });
+    console.log("hello");
 
     // editor.moveNodeByKey(
     //   currentItem.key,

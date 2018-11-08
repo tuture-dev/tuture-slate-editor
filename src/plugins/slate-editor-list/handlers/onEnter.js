@@ -19,7 +19,7 @@ function onEnter(options, event, editor, next) {
     editor.delete();
   }
 
-  if (currentItem.isEmpty) {
+  if (!currentItem.getFirstText().text) {
     if (getItemDepth(options, value) > 1) {
       return decreaseItemDepth(options, editor);
     }
