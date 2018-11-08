@@ -10,7 +10,6 @@ function onBackspace(options, event, editor, next) {
   }
 
   const { startText, startBlock } = value;
-  console.log("startText", startText);
   const { start } = selection;
   const currentLine = startBlock;
 
@@ -27,7 +26,6 @@ function onBackspace(options, event, editor, next) {
       start.offset === 0 && currentCode.getFirstText().equals(startText);
     const isEmpty =
       currentCode.nodes.size === 1 && currentLine.text.length === 0;
-    console.log("isEmpty", start.offset, isEmpty);
 
     if (isStartOfCode && isEmpty) {
       event.preventDefault();

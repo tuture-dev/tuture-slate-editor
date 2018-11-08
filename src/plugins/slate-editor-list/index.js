@@ -12,15 +12,7 @@ import {
 } from "./utils";
 import Options from "./options";
 import core from "./core";
-// import {
-//   onTab,
-//   onShiftTab,
-//   onModEnter,
-//   onEnter,
-//   onSelectAll,
-//   onBackspace,
-//   onPaste
-// } from "./handlers/";
+import { onBackspace } from "./handlers/";
 
 const isTab = isHotKey("tab");
 const isShiftTab = isHotKey("shift+tab");
@@ -78,36 +70,33 @@ export default function({
     );
   }
 
-  // handle Enter and Backspace
+  plugins.push({
+    onKeyDown: (event, editor, next) => {
+      const args = [options, event, editor, next];
 
-  // plugins.push({
-  //   schema: schema(options),
-  //   onKeyDown: (event, editor, next) => {
-  //     const args = [options, event, editor, next];
+      // if (isTab(event)) {
+      //   return onTab(...args);
+      // }
 
-  //     if (isTab(event)) {
-  //       return onTab(...args);
-  //     }
+      // if (isShiftTab(event)) {
+      //   return onShiftTab(...args);
+      // }
 
-  //     if (isShiftTab(event)) {
-  //       return onShiftTab(...args);
-  //     }
+      // if (options.exitBlockType && isModEnter(event)) {
+      //   return onModEnter(...args);
+      // }
 
-  //     if (options.exitBlockType && isModEnter(event)) {
-  //       return onModEnter(...args);
-  //     }
+      // if (isEnter(event)) {
+      //   return onEnter(...args);
+      // }
 
-  //     if (isEnter(event)) {
-  //       return onEnter(...args);
-  //     }
+      if (isBackspace(event)) {
+        return onBackspace(...args);
+      }
 
-  //     if (isBackspace(event)) {
-  //       return onBackspace(...args);
-  //     }
-
-  //     return next();
-  //   }
-  // });
+      return next();
+    }
+  });
 
   // Add markdown-related function
   plugins.push(AutoReplace(markdown));
