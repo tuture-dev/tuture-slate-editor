@@ -28,7 +28,7 @@ const defaultAfterChange = (editor, event, matches, afterOffset) => {
 export const defaultNodeType = "ul_list";
 export const defaultCommand = "addUlList";
 export const defaultMarkdown = {
-  trigger: "Enter",
+  trigger: "space",
   before: /^(-|[1-9])$/,
   afterChange: defaultAfterChange
 };

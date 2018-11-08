@@ -11,3 +11,5 @@ function getCurrentItem(options, value, block) {
   const parent = document.getParent(block.key);
   return parent && parent.type === options.typeItem ? parent : null;
 }
+
+export default getCurrentItem;

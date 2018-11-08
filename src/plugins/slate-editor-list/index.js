@@ -42,7 +42,12 @@ export default function({
   plugins.push({
     commands: {
       [command]: editor => {
-        return corePlugin.changes.wrapInList(editor, nodeType).focus();
+        const { value } = editor;
+        const isActive = corePlugin.utils.isSelectionInList(value, nodeType);
+        return corePlugin.changes[isActive ? "unwrapList" : "wrapInList"](
+          editor,
+          nodeType
+        ).focus();
       }
     }
   });
