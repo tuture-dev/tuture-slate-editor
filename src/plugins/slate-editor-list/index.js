@@ -12,7 +12,7 @@ import {
 } from "./utils";
 import Options from "./options";
 import core from "./core";
-import { onBackspace } from "./handlers/";
+import { onBackspace, onEnter } from "./handlers/";
 
 const isTab = isHotKey("tab");
 const isShiftTab = isHotKey("shift+tab");
@@ -86,9 +86,9 @@ export default function({
       //   return onModEnter(...args);
       // }
 
-      // if (isEnter(event)) {
-      //   return onEnter(...args);
-      // }
+      if (isEnter(event)) {
+        return onEnter(...args);
+      }
 
       if (isBackspace(event)) {
         return onBackspace(...args);
