@@ -16,11 +16,14 @@ import {
   getCurrentList,
   getPreviousItem
 } from "./utils/";
+import { schema, validateNode } from "./validation/";
 
 function core(optionParams) {
   const options = new Options(optionParams);
 
   return {
+    schema: schema(options),
+    validateNode: validateNode(options),
     utils: {
       isList: isList.bind(null, options),
       isSelectionInList: isSelectionInList.bind(null, options),

@@ -69,6 +69,8 @@ export default function({
   }
 
   plugins.push({
+    schema: corePlugin.schema,
+    validateNode: corePlugin.validateNode,
     onKeyDown: (event, editor, next) => {
       const args = [options, event, editor, next];
 
