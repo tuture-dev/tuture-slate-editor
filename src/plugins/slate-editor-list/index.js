@@ -12,13 +12,11 @@ import {
 } from "./utils";
 import Options from "./options";
 import core from "./core";
-import { onBackspace, onEnter } from "./handlers/";
+import { onBackspace, onEnter, onTab, onShiftTab } from "./handlers/";
 
 const isTab = isHotKey("tab");
 const isShiftTab = isHotKey("shift+tab");
-const isModEnter = isHotKey("mod+enter");
 const isEnter = isHotKey("enter");
-const isModA = isHotKey("mod+a");
 const isBackspace = isHotKey("backspace");
 
 const options = new Options();
@@ -74,17 +72,13 @@ export default function({
     onKeyDown: (event, editor, next) => {
       const args = [options, event, editor, next];
 
-      // if (isTab(event)) {
-      //   return onTab(...args);
-      // }
+      if (isTab(event)) {
+        return onTab(...args);
+      }
 
-      // if (isShiftTab(event)) {
-      //   return onShiftTab(...args);
-      // }
-
-      // if (options.exitBlockType && isModEnter(event)) {
-      //   return onModEnter(...args);
-      // }
+      if (isShiftTab(event)) {
+        return onShiftTab(...args);
+      }
 
       if (isEnter(event)) {
         return onEnter(...args);

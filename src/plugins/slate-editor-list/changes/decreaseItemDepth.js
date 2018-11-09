@@ -28,7 +28,7 @@ function decreaseItemDepth(options, editor) {
     currentList.nodes.size === followingItems.size + 1;
 
   if (!followingItems.isEmpty()) {
-    const subList = Block({
+    const subList = Block.create({
       object: "block",
       type: currentList.type,
       data: currentList.data
@@ -37,23 +37,32 @@ function decreaseItemDepth(options, editor) {
     editor.insertNodeByKey(currentItem.key, currentItem.nodes.size, subList, {
       normalize: false
     });
-    console.log("hello");
 
-    // editor.moveNodeByKey(
-    //   currentItem.key,
-    //   parentList.key,
-    //   parentList.nodes.indexOf(parentItem) + 1,
-    //   { normalize: false },
-    // );
+    editor.moveNodeByKey(
+      currentItem.key,
+      parentList.key,
+      parentList.nodes.indexOf(parentItem) + 1,
+      { normalize: false }
+    );
 
-    // followingItems.forEach((item, index) =>
-    //   editor.moveNodeByKey(
-    //     item.key,
-    //     subList.key,
-
-    //   )
-    // )
+    followingItems.forEach((item, index) =>
+      editor.moveNodeByKey(item.key, subList.key, subList.nodes.size + index, {
+        normalize: false
+      })
+    );
+  } else {
+    editor.moveNodeByKey(
+      currentItem.key,
+      parentList.key,
+      parentList.nodes.indexOf(parentItem) + 1
+    );
   }
+
+  if (willEmptyCurrentList) {
+    editor.removeNodeByKey(currentList.key);
+  }
+
+  return editor;
 }
 
 export default decreaseItemDepth;
