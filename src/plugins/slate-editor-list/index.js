@@ -28,6 +28,7 @@ export default function({
   markdown = defaultMarkdown,
   renderNode
 } = {}) {
+  console.log("markdown", markdown);
   let plugins = [];
   plugins.push({
     commands: {

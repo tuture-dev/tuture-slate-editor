@@ -1,9 +1,18 @@
 import React from "react";
 
-import core from "./core";
-import Options from "./options";
+export const defaultNodeType = "ul_list";
+export const defaultCommand = "addList";
 
-const corePlugin = core(new Options());
+const defaultAfterChange = (editor, event, matches, afterOffset) => {
+  let newEditor = editor;
+  newEditor.moveTo(afterOffset).command(defaultCommand);
+};
+
+export const defaultMarkdown = {
+  trigger: "space",
+  before: /^(-)$/,
+  afterChange: defaultAfterChange
+};
 
 export const DefaultRenderUlNode = props => {
   const { attributes, children } = props;
@@ -18,17 +27,4 @@ export const DefaultRenderOlNode = props => {
 export const DefaultListItemNode = props => {
   const { attributes, children } = props;
   return <li {...attributes}>{children}</li>;
-};
-
-const defaultAfterChange = (editor, event, matches, afterOffset) => {
-  let newEditor = editor;
-  corePlugin.changes.wrapCodeBlock(newEditor.moveTo(afterOffset));
-};
-
-export const defaultNodeType = "ul_list";
-export const defaultCommand = "addUlList";
-export const defaultMarkdown = {
-  trigger: "space",
-  before: /^(-|[1-9])$/,
-  afterChange: defaultAfterChange
 };

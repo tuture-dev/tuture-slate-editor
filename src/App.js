@@ -17,6 +17,16 @@ import ListPlugin from "./plugins/slate-editor-list/";
 import "prismjs/themes/prism.css";
 import "github-markdown-css";
 
+const afterChange = (editor, event, matches, afterOffset) => {
+  return editor.moveTo(afterOffset).command("addOlList");
+};
+
+const OlMarkdown = {
+  trigger: "space",
+  before: /^([1-9]\.)$/,
+  afterChange: afterChange
+};
+
 const plugins = [
   ...BoldPlugin(),
   ...ItalicPlugin(),
@@ -26,7 +36,12 @@ const plugins = [
   ...BlockquotePlugin(),
   PrismPlugin(),
   ...BlockCodePlugin(),
-  ...ListPlugin()
+  ...ListPlugin({ nodeType: "ul_list" }),
+  ...ListPlugin({
+    nodeType: "ol_list",
+    markdown: OlMarkdown,
+    command: "addOlList"
+  })
 ];
 
 const initialValue = Value.fromJSON({
