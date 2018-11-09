@@ -1,7 +1,7 @@
 import React from "react";
 
 export const defaultNodeType = "ul_list";
-export const defaultCommand = "addList";
+export const defaultCommand = "addUlList";
 
 const defaultAfterChange = (editor, event, matches, afterOffset) => {
   let newEditor = editor;
