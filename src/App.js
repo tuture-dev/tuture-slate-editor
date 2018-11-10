@@ -13,6 +13,7 @@ import BlockCodePlugin, {
 } from "./plugins/slate-editor-blockCode-plugin/";
 import PrismPlugin from "./plugins/slate-editor-prismjs-plugin/";
 import ListPlugin from "./plugins/slate-editor-list/";
+import LinkPlugin from "./plugins/slate-editor-link/";
 
 import "prismjs/themes/prism.css";
 import "github-markdown-css";
@@ -41,7 +42,8 @@ const plugins = [
     nodeType: "ol_list",
     markdown: OlMarkdown,
     command: "addOlList"
-  })
+  }),
+  ...LinkPlugin()
 ];
 
 const initialValue = Value.fromJSON({
