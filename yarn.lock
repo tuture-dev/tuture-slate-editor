@@ -3662,6 +3662,10 @@ get-own-enumerable-property-symbols@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/get-own-enumerable-property-symbols/download/get-own-enumerable-property-symbols-3.0.0.tgz#b877b49a5c16aefac3655f2ed2ea5b684df8d203"
 
+get-selection-range@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/get-selection-range/download/get-selection-range-0.1.0.tgz#d76db74e922247361f37e713c563bd911c63873b"
+
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/get-stream/download/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
@@ -8375,6 +8379,10 @@ spdy@^3.4.1:
     safe-buffer "^5.0.1"
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
+
+spectre.css@^0.5.5:
+  version "0.5.5"
+  resolved "http://registry.npm.taobao.org/spectre.css/download/spectre.css-0.5.5.tgz#52f8a32260c463f77802315e7338f86cb1dfd847"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"

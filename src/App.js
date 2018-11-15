@@ -1,6 +1,8 @@
 import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
+import { getVisibleSelectionRect } from "get-selection-range";
+import styled from "styled-components";
 
 import BoldPlugin from "./plugins/slate-editor-bold-plugin/";
 import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
@@ -67,9 +69,17 @@ const initialValue = Value.fromJSON({
   }
 });
 
+const Hello = styled("div")`
+  background: #eee;
+  box-shadow: 1px 1px 1px 1px #eee;
+  display: none;
+  position: absolute;
+`;
+
 export default class App extends React.Component {
   state = {
-    value: initialValue
+    value: initialValue,
+    rect: null
   };
 
   onChange = ({ value }) => {
@@ -108,7 +118,23 @@ export default class App extends React.Component {
     }
   };
 
+  componentDidMount() {
+    const rect = getVisibleSelectionRect();
+    console.log("rect", rect);
+  }
+
+  onSelect = (command, editor, next) => {
+    const { value } = editor;
+    const { selection } = value;
+    const rect = getVisibleSelectionRect();
+    this.setState({ rect });
+  };
+
+  onKeyDown = () => {};
+
   ref = editor => (this.editor = editor);
+  helloRef = React.createRef();
+
   render() {
     return (
       <div>
@@ -147,7 +173,9 @@ export default class App extends React.Component {
           onChange={this.onChange}
           plugins={plugins}
           renderNode={this.renderNode}
+          onSelect={this.onSelect}
         />
+        <Hello ref={this.helloRef}>Hello</Hello>
       </div>
     );
   }

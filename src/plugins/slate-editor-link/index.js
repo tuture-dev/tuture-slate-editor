@@ -1,4 +1,5 @@
 import React from "react";
+import { getVisibleSelectionRect } from "get-selection-range";
 
 import { AddHotKey, RenderNode, AutoReplace } from "../slate-editor-utils/";
 import PasteLink from "./paste-link";
