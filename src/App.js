@@ -2,6 +2,7 @@ import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
 import styled from "styled-components";
+import { Modal, Form, Input, Icon } from "antd";
 
 import BoldPlugin from "./plugins/slate-editor-bold-plugin/";
 import ItalicPlugin from "./plugins/slate-editor-italic-plugin/";
@@ -18,6 +19,8 @@ import LinkPlugin from "./plugins/slate-editor-link/";
 
 import "prismjs/themes/prism.css";
 import "github-markdown-css";
+
+const FormItem = Form.Item;
 
 const afterChange = (editor, event, matches, afterOffset) => {
   return editor.moveTo(afterOffset).command("addOlList");
@@ -151,6 +154,9 @@ export default class App extends React.Component {
         </button>
         <button onClick={event => this.handleBlockClick(event, "addUlList")}>
           添加无序列表
+        </button>
+        <button onClick={event => this.handleBlockClick(event, "addLink")}>
+          添加链接
         </button>
         <Editor
           ref={this.ref}

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Menu, Dropdown, Icon } from "antd";
+import { Menu, Dropdown, Icon, Popover, Input } from "antd";
 import { getVisibleSelectionRect } from "get-selection-range";
 
 import { AddHotKey, RenderNode, AutoReplace } from "../slate-editor-utils/";
@@ -40,17 +40,50 @@ const Link = styled("a")`
   }
 `;
 
-const DefaultRenderNode = props => {
-  const { attributes, children, node } = props;
-  console.log("hello");
-  return (
-    <Dropdown overlay={menu} trigger={["click"]}>
-      <Link {...attributes} href={node.data.get("url")}>
-        {children}
-      </Link>
-    </Dropdown>
-  );
-};
+class DefaultRenderNode extends React.Component {
+  state = {
+    visible: false
+  };
+  popoverRef = React.createRef();
+  inputRef = React.createRef();
+
+  componentDidMount() {
+    const { attributes, children, node } = this.props;
+    const url = node.data.get("url");
+    console.log("url", url);
+
+    if (!url) {
+      this.setState({
+        visible: true
+      });
+    }
+  }
+
+  onVisibleChange = visible => {
+    this.setState({
+      visible
+    });
+  };
+
+  render() {
+    const { attributes, children, node } = this.props;
+    const url = node.data.get("url");
+    return (
+      <Popover
+        trigger={"click"}
+        content={<Input autoFocus={true} />}
+        placement="bottom"
+        visible={this.state.visible}
+        ref={this.popoverRef}
+        onVisibleChange={this.onVisibleChange}
+      >
+        <Link {...attributes} href={url}>
+          {children}
+        </Link>
+      </Popover>
+    );
+  }
+}
 
 const defaultBeforeChange = nodeType => (change, event, matches) => {
   const startOffset = change.value.selection.start.offset;
@@ -70,7 +103,7 @@ const defaultAfterChange = nodeType => (
 };
 
 const defaultNodeType = "link";
-const defaultCommand = "addLinkInline";
+const defaultCommand = "addLink";
 const defaultHotKey = "mod+k";
 const defaultMarkdown = {
   trigger: /(\*|_)/,
@@ -119,7 +152,7 @@ export default function({
       },
       [command](editor, url) {
         const { value } = editor;
-        if (editor.query("isActiveQuery", value)) {
+        if (editor.query("isLinkAcitve", value)) {
           return editor.unwrapInline("link");
         }
         return editor.wrapInline({ type: "link", data: { url } });
