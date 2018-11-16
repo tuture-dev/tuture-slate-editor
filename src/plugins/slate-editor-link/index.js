@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Menu, Dropdown, Icon, Popover, Input } from "antd";
+import { Menu, Dropdown, Icon, Popover, Input, Button } from "antd";
 import { getVisibleSelectionRect } from "get-selection-range";
 
 import { AddHotKey, RenderNode, AutoReplace } from "../slate-editor-utils/";
@@ -42,7 +42,9 @@ const Link = styled("a")`
 
 class DefaultRenderNode extends React.Component {
   state = {
-    visible: false
+    visible: false,
+    value: this.props.node.data.get("url"),
+    editable: !this.props.node.data.get("url")
   };
   popoverRef = React.createRef();
   inputRef = React.createRef();
@@ -65,19 +67,67 @@ class DefaultRenderNode extends React.Component {
     });
   };
 
+  onChange = e => {
+    this.setState({
+      value: e.target.value
+    });
+  };
+
+  handleSave = () => {
+    const { value } = this.state;
+    const { node, editor } = this.props;
+    this.setState({
+      visible: false,
+      editable: false
+    });
+    editor.setNodeByKey(node.key, { data: { url: value } });
+  };
+
+  handleModify = () => {
+    this.setState({
+      editable: true
+    });
+  };
+
+  handleDelete = () => {
+    const { node, editor } = this.props;
+    editor.unwrapInlineByKey(node.key);
+  };
+
   render() {
     const { attributes, children, node } = this.props;
-    const url = node.data.get("url");
+    const content = (
+      <div>
+        <Input
+          autoFocus={true}
+          onChange={this.onChange}
+          value={this.state.value}
+        />
+        <Button type="default" onClick={this.handleSave}>
+          保存
+        </Button>
+      </div>
+    );
+
+    const savedContent = (
+      <div>
+        <span>{this.state.value}</span>
+        <Button onClick={this.handleModify}>修改</Button>
+        <Button onClick={this.handleDelete}>删除</Button>
+      </div>
+    );
+
     return (
       <Popover
         trigger={"click"}
-        content={<Input autoFocus={true} />}
-        placement="bottom"
+        content={this.state.editable ? content : savedContent}
+        placement="bottomLeft"
+        arrowPointAtCenter={true}
         visible={this.state.visible}
         ref={this.popoverRef}
         onVisibleChange={this.onVisibleChange}
       >
-        <Link {...attributes} href={url}>
+        <Link {...attributes} href={this.state.resValue}>
           {children}
         </Link>
       </Popover>

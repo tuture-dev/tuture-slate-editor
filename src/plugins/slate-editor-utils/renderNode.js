@@ -5,7 +5,7 @@ export default function(options) {
     renderNode: (props, editor, next) => {
       switch (props.node.type) {
         case options.nodeType:
-          return <options.element {...props} />;
+          return <options.element {...props} editor={editor} next={next} />;
         default:
           return next();
       }
