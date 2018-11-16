@@ -1,15 +1,54 @@
 import React from "react";
+import styled from "styled-components";
+import { Menu, Dropdown, Icon } from "antd";
 import { getVisibleSelectionRect } from "get-selection-range";
 
 import { AddHotKey, RenderNode, AutoReplace } from "../slate-editor-utils/";
 import PasteLink from "./paste-link";
 
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="http://www.alipay.com/"
+      >
+        1st menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="http://www.taobao.com/"
+      >
+        2nd menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+        3rd menu item
+      </a>
+    </Menu.Item>
+  </Menu>
+);
+
+const Link = styled("a")`
+  &:hover {
+    cursor: inherit;
+  }
+`;
+
 const DefaultRenderNode = props => {
   const { attributes, children, node } = props;
+  console.log("hello");
   return (
-    <a {...attributes} href={node.data.get("url")}>
-      {children}
-    </a>
+    <Dropdown overlay={menu} trigger={["click"]}>
+      <Link {...attributes} href={node.data.get("url")}>
+        {children}
+      </Link>
+    </Dropdown>
   );
 };
 
